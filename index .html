@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IRyS Jump Game</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      background: url('background.png') no-repeat center center;
+      background-size: cover;
+    }
+    #retry {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      background: #fff;
+      border: 2px solid #000;
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <button id="retry">Retry</button>
+  <script>
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;const groundImg = new Image();
+groundImg.src = "ground.png";
+
+const playerImg = new Image();
+playerImg.src = "irys.png";
+
+const obstacleImg = new Image();
+obstacleImg.src = "obstacle.png";
+
+let gravity = 0.8;
+let gameSpeed = 6;
+let score = 0;
+let gameOver = false;
+
+class Player {
+  constructor() {
+    this.x = 100;
+    this.y = height - 150;
+    this.width = 80;
+    this.height = 80;
+    this.velocityY = 0;
+    this.jumping = false;
+  }
+
+  update() {
+    this.velocityY += gravity;
+    this.y += this.velocityY;
+
+    if (this.y + this.height >= height - 70) {
+      this.y = height - 70 - this.height;
+      this.velocityY = 0;
+      this.jumping = false;
+    }
+  }
+
+  jump() {
+    if (!this.jumping) {
+      this.velocityY = -18;
+      this.jumping
+
